@@ -22,10 +22,4 @@ Landing page para venda de bolos de pote artesanais, feita para direcionar clien
 - CSS3 (variáveis CSS, Flexbox, Grid)
 - JavaScript puro (sem frameworks)
 
-## 📱 Contato
-
-Pedidos via WhatsApp: **(11) 96797-6400**
-
----
-
 Desenvolvido por Wellington como projeto de prática em desenvolvimento web.
