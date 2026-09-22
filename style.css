@@ -1,0 +1,584 @@
+/* =========================================================
+   1) VARIÁVEIS DE COR E FONTE
+   Mesma paleta de antes — só centralizada aqui em :root
+   para ser fácil trocar tudo de uma vez, se um dia quiser.
+   ========================================================= */
+:root {
+  --bg: #FCEFE3;
+  --bg-alt: #FFF8F1;
+  --text: #3B2013;
+  --text-dim: #8A6C58;
+  --pink: #DD4F79;
+  --pink-dark: #B93A5E;
+  --gold: #D9A441;
+  --line: #EAD8C6;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Work Sans', sans-serif;
+  --shadow-soft: 0 10px 30px rgba(59, 32, 19, .08);
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 1000;
+}
+
+a {
+  color: inherit;
+}
+
+/* Foco visível para quem navega pelo teclado (acessibilidade) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--pink-dark);
+  outline-offset: 3px;
+}
+
+/* Respeita quem prefere menos animação no sistema */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* =========================================================
+   2) HEADER / MENU
+   position:sticky mantém o header colado no topo ao rolar.
+   Em telas pequenas, .nav vira um painel que abre por baixo
+   do header quando clicamos no botão hambúrguer (.menu-toggle).
+   ========================================================= */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(252, 239, 227, .92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+  transition: box-shadow .25s ease, padding .25s ease;
+}
+
+/* Classe adicionada via JS quando a página rola (ver script.js) */
+header.is-scrolled {
+  box-shadow: var(--shadow-soft);
+  padding: 8px 0;
+}
+
+header .wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+
+  height: 150px;
+  width: 200%;
+  border-radius: 50%;
+  transition: height .25s ease;
+}
+
+header.is-scrolled .logo {
+  height: 44px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: auto;
+}
+
+.nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .95rem;
+  color: var(--text);
+  position: relative;
+  padding: 4px 2px;
+  text-align: center;
+}
+
+/* Sublinhado que "cresce" da esquerda para a direita no hover */
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--pink);
+  transition: width .2s ease;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pink);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: .88rem;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.btn-wa:hover {
+  background: var(--pink-dark);
+  transform: translateY(-1px);
+}
+
+.ico-wa {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.btn-main .ico-wa {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+/* ajuste fino só no botão dentro da seção .final */
+.final .ico-wa{
+  position:relative;
+  top:3px;
+}
+
+/* Botão hambúrguer: só aparece no mobile (ver media query lá embaixo) */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 30px;
+  height: 19px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 4px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+/* Quando o menu está aberto (.nav-open no body), o ícone vira um "X" */
+body.nav-open .menu-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+body.nav-open .menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+body.nav-open .menu-toggle span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* =========================================================
+   3) HERO
+   ========================================================= */
+.hero {
+  padding: 72px 24px 48px;
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  color: var(--pink-dark);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.hero .sub {
+  color: var(--text-dim);
+  margin-top: 16px;
+  max-width: 46ch;
+  font-size: 1.05rem;
+}
+
+.price-badge {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 24px;
+  width: fit-content;
+}
+
+.price-badge .label {
+  font-size: .8rem;
+  color: var(--text-dim);
+}
+
+.price-badge .value {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  color: var(--pink-dark);
+}
+
+.btn-main {
+  background: var(--pink);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 20px;
+  justify-content: flex-start;
+  align-self: flex-start;
+  display: flex;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+  width: fit-content;
+  /* mantém do tamanho do conteúdo, não 100% */
+  gap: 6px;
+
+}
+
+.btn-main:hover {
+  background: var(--pink-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-invert {
+  background: #fff;
+  color: var(--pink-dark);
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-weight: 700;
+  text-decoration: none;
+  justify-content: space-between;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+  display: ruby;
+  justify-content: center;
+
+
+}
+
+.btn-invert:hover {
+  background: var(--bg-alt);
+  color: var(--pink-dark);
+}
+
+.hero-photo {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 4/3;
+  background: var(--bg-alt);
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder da foto do hero: some sozinho assim que você trocar
+   por uma <img> de verdade (ver comentário no HTML). */
+.hero-photo.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--line);
+  background: var(--bg-alt);
+}
+
+.placeholder-inner {
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.ico-cake {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 10px;
+  color: var(--gold);
+}
+
+.placeholder-inner p {
+  font-size: .9rem;
+}
+
+/* =========================================================
+   4) SABORES
+   ========================================================= */
+.sabores {
+  background: var(--bg-alt);
+  padding: 80px 24px;
+}
+
+.sabores h2,
+.como h2,
+.showcase h2,
+.final h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.section-sub {
+  color: var(--text-dim);
+  margin-top: 10px;
+  max-width: 56ch;
+}
+
+.flavor-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.flavor-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 16px;
+  text-align: center;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.flavor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+  border-color: var(--pink);
+}
+
+.ico-flavor {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  color: var(--pink-dark);
+}
+
+.flavor-card span {
+  font-weight: 600;
+}
+
+/* =========================================================
+   5) COMO PEDIR
+   ========================================================= */
+.como {
+  padding: 88px 24px;
+}
+
+.como h2 {
+  text-align: center;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.step .num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+.step h3 {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.step p {
+  color: var(--text-dim);
+  font-size: .92rem;
+}
+
+/* =========================================================
+   6) DESTAQUE / SHOWCASE
+   ========================================================= */
+.showcase {
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.showcase .section-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   7) CONTATO / FINAL
+   ========================================================= */
+.final {
+  background: var(--pink);
+  color: #fff;
+  text-align: center;
+  padding: 88px 24px;
+}
+
+.final h2 {
+  margin-bottom: 24px;
+}
+
+footer {
+  text-align: center;
+  padding: 28px 24px;
+  background: var(--bg-alt);
+  color: var(--text-dim);
+  font-size: .85rem;
+}
+
+
+/* =========================================================
+   9) RESPONSIVO
+   ========================================================= */
+@media (max-width: 860px) {
+  .hero .wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-photo {
+    order: -1;
+    aspect-ratio: 16/10;
+  }
+
+  .flavor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* O menu vira um painel abaixo do header, escondido por padrão */
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--line);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease, padding .3s ease;
+  }
+
+  body.nav-open .nav {
+    max-height: 220px;
+    padding: 5px 24px;
+  }
+
+  .nav a {
+    padding: 12px 0;
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav a:last-child {
+    border-bottom: none;
+  }
+
+  .price-badge {
+    width: auto;
+    display: inline-flex;
+  }
+
+  .btn-invert {
+
+    width: auto;
+    display: ruby-text;
+    margin-top: 10px;
+
+
+  }
+}
