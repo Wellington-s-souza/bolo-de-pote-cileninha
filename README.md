@@ -4,8 +4,7 @@ Landing page para venda de bolos de pote artesanais, feita para direcionar clien
 
 ## 🔗 Demo
 
-> Depois de publicar (GitHub Pages, Netlify, Vercel etc.), troque este link pela URL final:
-> `https://seu-usuario.github.io/bolo-de-pote-cileninha/`
+https://bolodepotecileninha.rf.gd/
 
 ## ✨ Funcionalidades
 
@@ -15,6 +14,9 @@ Landing page para venda de bolos de pote artesanais, feita para direcionar clien
 - Botões de call-to-action com link direto para o WhatsApp, com mensagem pré-preenchida
 - Layout responsivo (desktop, tablet e celular)
 - Espaço reservado no hero e na seção de sabores para receber fotos reais dos produtos
+- Secao de galeria horizontal com rolagem animada automatica (GSAP)
+- Icones em SVG especificos para cada sabor
+
 
 ## 🛠️ Tecnologias
 

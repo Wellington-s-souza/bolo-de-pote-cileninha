@@ -26,12 +26,14 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
+  overflow-x: clip;
 }
 
 img,
@@ -102,7 +104,7 @@ header.is-scrolled {
 header .wrap {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 8px;
   justify-content: space-between;
 }
 
@@ -116,7 +118,7 @@ header .wrap {
 .logo {
 
   height: 150px;
-  width: 200%;
+  width: auto;
   border-radius: 50%;
   transition: height .25s ease;
 }
@@ -195,10 +197,11 @@ header.is-scrolled .logo {
   height: 20px;
   fill: currentColor;
 }
+
 /* ajuste fino só no botão dentro da seção .final */
-.final .ico-wa{
-  position:relative;
-  top:3px;
+.final .ico-wa {
+  position: relative;
+  top: -1px;
 }
 
 /* Botão hambúrguer: só aparece no mobile (ver media query lá embaixo) */
@@ -239,7 +242,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
    3) HERO
    ========================================================= */
 .hero {
-  padding: 72px 24px 48px;
+  padding: 72px 12px 48px;
 }
 
 .hero .wrap {
@@ -305,7 +308,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
   width: fit-content;
   /* mantém do tamanho do conteúdo, não 100% */
-  gap: 6px;
+  gap: 3px;
 
 }
 
@@ -324,7 +327,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   text-decoration: none;
   justify-content: space-between;
   transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
-  display: ruby;
+  display: inline-flex;
   justify-content: center;
 
 
@@ -433,7 +436,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
    5) COMO PEDIR
    ========================================================= */
 .como {
-  padding: 88px 24px;
+  padding: 30px 24px;
 }
 
 .como h2 {
@@ -574,11 +577,51 @@ footer {
   }
 
   .btn-invert {
-
     width: auto;
-    display: ruby-text;
     margin-top: 10px;
 
-
   }
+}
+
+.galeria {
+  overflow: hidden;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--line);
+}
+
+.galeria-track {
+  display: flex;
+  flex-wrap: nowrap;
+  /* impede que os itens quebrem linha */
+  gap: 24px;
+  width: max-content;
+  /* a trilha cresce conforme os itens, nunca encolhe */
+  padding: 30px 24px;
+}
+
+.galeria-item {
+  flex: 0 0 clamp(240px, 42vw, 320px);
+  width: clamp(280px, 70vw, 320px);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0px 10px 20px 5px rgba(0, 0, 0, 0.15);
+  flex-direction: column;
+}
+
+.galeria-item img {
+  width: 100%;
+  height: clamp(280px, 42vw, 420px);
+  object-fit: cover;
+  /* preenche o quadro sem distorcer a foto */
+  display: block;
+}
+.galeria-item .legenda{
+  padding:10px 14px;
+  text-align:center;
+  font-weight:600;
+  color:var(--text);
+}
+.flavor-card img{
+  color: #B93A5E;
 }

@@ -33,7 +33,7 @@ if (menuToggle && nav) {
 const header = document.getElementById('header');
 
 function updateHeaderOnScroll() {
-  if (window.scrollY > 0.5) {
+  if (window.scrollY > 0) {
     header.classList.add('is-scrolled');
   } else {
     header.classList.remove('is-scrolled');
@@ -45,4 +45,39 @@ if (header) {
   window.addEventListener('scroll', updateHeaderOnScroll, { passive: true });
 }
 
+/* =========================================================
+   4) GALERIA COM ROLAGEM AUTOMÁTICA E INFINITA (GSAP)
+   Duplicamos o conjunto de fotos quantas vezes forem necessárias
+   até a trilha ficar pelo menos 2x mais larga que a tela — assim,
+   em qualquer tamanho de monitor, sempre existe foto suficiente
+   pra preencher a tela e nunca sobra espaço em branco.
+   A distância exata do loop é a posição (em pixels) de onde a
+   PRIMEIRA CÓPIA começa. Ao mover a trilha por esse valor, a cena
+   fica idêntica à inicial — e aí dá pra repetir pra sempre sem
+   nenhuma "costura" visível.
+   ========================================================= */
+if (typeof gsap !== 'undefined') {
+  const galeriaTrack = document.querySelector('.galeria-track');
+ 
+  if (galeriaTrack) {
+   const itensOriginais = Array.from(galeriaTrack.children);
 
+do {
+  itensOriginais.forEach((item) => {
+    const copia = item.cloneNode(true);
+    copia.setAttribute('aria-hidden', 'true');
+    galeriaTrack.appendChild(copia);
+  });
+} while (galeriaTrack.scrollWidth < window.innerWidth * 2);
+ 
+    const primeiraCopia = galeriaTrack.children[itensOriginais.length];
+    const distanciaDoLoop = primeiraCopia.offsetLeft;
+ 
+    gsap.to(galeriaTrack, {
+      x: -distanciaDoLoop,
+      ease: 'none',
+      duration: 25,   // quanto MAIOR esse número, mais DEVAGAR as fotos passam
+      repeat: -1        // -1 = repete para sempre
+    });
+  }
+}
